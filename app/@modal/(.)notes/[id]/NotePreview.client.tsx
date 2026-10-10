@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import css from "./page.module.css";
 import { useQuery } from "@tanstack/react-query";
 import { fetchNoteById } from "@/lib/api";
@@ -8,6 +8,9 @@ import Modal from "@/components/Modal/Modal";
 
 export default function NotePreviewClient() {
   const { id } = useParams<{ id: string }>();
+
+  const router = useRouter();
+  const close = () => router.back();
 
   const {
     data: note,
@@ -26,7 +29,7 @@ export default function NotePreviewClient() {
   const formattedDate = note.updatedAt ? note.updatedAt : note.createdAt;
 
   return (
-    <Modal>
+    <Modal onClose={close}>
       <main className={css.main}>
         <div className={css.container}>
           <div className={css.item}>
